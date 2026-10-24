@@ -1,0 +1,5 @@
+node_modules/
+dist/
+# Fetched by scripts/fetch-assets.mjs
+public/models/*.tflite
+public/mediapipe/
