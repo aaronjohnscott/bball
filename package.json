@@ -10,7 +10,8 @@
     "build": "npm run assets && tsc --noEmit && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "build:pages": "npm run build -- --outDir docs --emptyOutDir && touch docs/.nojekyll"
   },
   "repository": {
     "type": "git",

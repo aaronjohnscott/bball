@@ -98,10 +98,18 @@ Append `?cpu` to the URL to force the CPU detector.
 
 ## Deploying
 
-`.github/workflows/deploy.yml` tests, builds and publishes `dist/` to GitHub
-Pages on every push to `main`. Turn it on once under **Settings → Pages →
-Build and deployment → Source: GitHub Actions**. The site is then at
-`https://<user>.github.io/<repo>/`.
+A ready-built copy of the site is committed in `docs/`, so GitHub Pages can
+serve it straight from the branch with no build step:
+
+1. Repo **Settings → Pages → Build and deployment → Source: Deploy from a
+   branch**.
+2. Pick the branch that has `docs/` (and folder **/docs**), then Save.
+3. After a minute the app is at `https://<user>.github.io/<repo>/`.
+
+After changing the code, run `npm run build:pages` and commit `docs/`.
+
+Alternatively, `.github/workflows/deploy.yml` builds and publishes on every
+push to `main` if you set the Pages source to **GitHub Actions** instead.
 
 ## Plan
 

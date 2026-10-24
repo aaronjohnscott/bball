@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#111214" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="description" content="AI basketball shot tracker that runs entirely on your phone." />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icons/icon-180.png" />
+    <title>Hoops AI</title>
+    <script type="module" crossorigin src="./assets/index-B435MMLM.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CNOc6b8P.css">
+  </head>
+  <body>
+    <main id="app">
+      <section id="home" class="screen page">
+        <header class="brand">
+          <img src="./icons/icon.svg" alt="" width="56" height="56" />
+          <div>
+            <h1>Hoops AI</h1>
+            <p class="muted">Shot tracker that runs on this phone. No uploads.</p>
+          </div>
+        </header>
+        <div class="actions">
+          <button id="btn-practice" class="primary big">Start practice</button>
+          <label class="button big" for="file-test">Test with a video</label>
+          <input id="file-test" type="file" accept="video/*" hidden />
+          <button id="btn-history" class="big">History</button>
+          <label class="setting">
+            Detector
+            <select id="model-select">
+              <option value="lite0">Fast (4.6 MB)</option>
+              <option value="lite2">Accurate (12 MB, slower)</option>
+            </select>
+          </label>
+        </div>
+        <p id="home-error" class="error" role="alert"></p>
+        <ol class="tips">
+          <li>Phone in <b>landscape</b> on a tripod at the side of the court.</li>
+          <li>Rim in the <b>upper third</b> of the picture, whole backboard in view.</li>
+          <li>Tap the rim once, size the oval to match, then Start.</li>
+          <li>Shoot. You'll hear each call: “Make. Seven of twelve.”</li>
+          <li>Wrong call? Tap <b>Fix</b> to flip the last one.</li>
+        </ol>
+      </section>
+
+      <section id="stage" class="screen stage" hidden>
+        <video id="video" playsinline muted></video>
+        <canvas id="overlay"></canvas>
+        <div class="rotate-hint">Turn the phone sideways for the best view</div>
+
+        <div id="setup-ui" class="ui">
+          <div class="bar top">
+            <span id="setup-msg" class="pill">Loading detector…</span>
+            <span id="det-status" class="pill subtle"></span>
+          </div>
+          <div class="bar bottom">
+            <button id="btn-cancel">Back</button>
+            <label class="slider">Rim size <input id="rim-size" type="range" min="0.02" max="0.2" step="0.002" value="0.07" /></label>
+            <span id="test-controls" class="test-controls" hidden>
+              <input id="scrub" type="range" min="0" max="1" step="0.01" value="0" aria-label="Video position" />
+              <select id="test-speed" aria-label="Test speed">
+                <option value="exact">Every frame</option>
+                <option value="1">1× live</option>
+                <option value="0.5">½×</option>
+              </select>
+            </span>
+            <button id="btn-start" class="primary" disabled>Start</button>
+          </div>
+        </div>
+
+        <div id="live-ui" class="ui" hidden>
+          <div class="bar top">
+            <div class="score">
+              <span id="score-count">0 / 0</span>
+              <span id="score-pct" class="muted">0%</span>
+            </div>
+            <span id="last-call" class="call"></span>
+            <span id="live-status" class="pill subtle"></span>
+          </div>
+          <div class="bar bottom">
+            <button id="btn-fix" disabled>Fix last</button>
+            <button id="btn-add-make" title="Add a make the AI missed">+ Make</button>
+            <button id="btn-add-miss" title="Add a miss the AI missed">+ Miss</button>
+            <span class="spacer"></span>
+            <label class="toggle"><input id="tog-debug" type="checkbox" checked /> Boxes</label>
+            <label class="toggle"><input id="tog-voice" type="checkbox" checked /> Voice</label>
+            <button id="btn-end" class="danger">End</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="summary" class="screen page" hidden>
+        <header class="row">
+          <h1>Session</h1>
+          <span id="sum-date" class="muted"></span>
+        </header>
+        <div id="sum-stats" class="stats"></div>
+        <h2>Shots</h2>
+        <ol id="sum-shots" class="shots"></ol>
+        <div class="actions row">
+          <button id="btn-sum-home" class="primary">Done</button>
+          <button id="btn-sum-export">Export JSON</button>
+          <button id="btn-sum-delete" class="danger">Delete session</button>
+        </div>
+      </section>
+
+      <section id="history" class="screen page" hidden>
+        <header class="row">
+          <h1>History</h1>
+          <button id="btn-hist-home">Back</button>
+        </header>
+        <ul id="hist-list" class="sessions"></ul>
+      </section>
+    </main>
+  </body>
+</html>
