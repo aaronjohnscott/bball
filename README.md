@@ -39,8 +39,16 @@ camera frame ─► detector (Web Worker, MediaPipe) ─► ball boxes
              ─► count, voice, IndexedDB
 ```
 
-The detector is MediaPipe's stock EfficientDet-Lite0 (COCO "sports ball"),
-run on the GPU when available. It doesn't know rims, so you tap the rim once.
+The detector is MediaPipe's stock EfficientDet (COCO "sports ball"), run on
+the GPU when available. It doesn't know rims, so you tap the rim once. Pick
+**Fast** (Lite0, 4.6 MB, the default) or **Accurate** (Lite2, 12 MB, slower)
+on the home screen.
+
+The model only looks at a few hundred pixels, so a ball across the court in a
+full 720p frame is too small for it. After the rim tap it runs on a square
+crop around the rim, and once it finds the ball it follows it with a crop
+centered on the ball, with a whole-frame look every third frame to catch the
+release (`chooseRoi` in `src/main.ts`).
 
 Judge rules (`src/judge.ts`), all measured in rim widths so they work at any
 zoom:
